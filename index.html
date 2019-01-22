@@ -71,14 +71,23 @@
       }
       
       function game() {
-        playerMoves()
-        if(turnCounts > 3){
-         var isWin = checkWin() 
-         if (isWin) {
-           console.log("Winner!"); 
-         }
+        var gameOver = false;
+        while(gameOver == false) {
+          if (turnCount % 2 == 0) {
+            console.log("Player 2's turn.");
+          }
+          else {
+           console.log("Player 1's turn."); 
+          }
+          playerMoves()
+          if(turnCounts > 3){
+           var isWin = checkWin() 
+           if (isWin) {
+             console.log("Winner!"); 
+             gameOver = true;
+           }
+          }
         }
-        
       }
       
      
