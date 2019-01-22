@@ -7,16 +7,15 @@
     <script>
       var p1Selections = new Array();
       var p2Selections = new Array();
-      
+      var turnCount = 1
       // Array(3) generates empty array of length 3
       // map values of array to another empty array 
       var board = [...Array(3)].map(e => Array(3));
-    
-      const playerSelectionRow =  prompt("Pick row: 1, 2, or 3");
-      const playerSelectionCol =  prompt("Pick row: 1, 2, or 3");
 
+      function playerMoves () {        
+        const playerSelectionRow =  prompt("Pick row: 1, 2, or 3");
+        const playerSelectionCol =  prompt("Pick row: 1, 2, or 3");
 
-      function p1Moves () {
         var currSelection = p1Selections
         if (turnCount % 2 == 0) {
             currSelection = p2Selections
@@ -57,7 +56,24 @@
             currSelection.push(9)
           }
         }
+        turnCount++;
       };
+      
+      function checkWin() {
+        var currSelection = p1Selections
+        if (turnCount % 2 == 0) {
+            currSelection = p2Selections
+        }
+        
+      }
+      
+      function game() {
+         playerMoves()
+        if(turnCounts > 3){
+         var isWin = checkWin() 
+        }
+        
+      }
       
      
     </script>
