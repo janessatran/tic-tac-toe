@@ -66,12 +66,17 @@
             currSelection = p2Selections
         }
         let found = currSelection.some(r=> winSelections.includes(r))
+        if (found) {
+          return true;
       }
       
       function game() {
-         playerMoves()
+        playerMoves()
         if(turnCounts > 3){
          var isWin = checkWin() 
+         if (isWin) {
+           console.log("Winner!"); 
+         }
         }
         
       }
