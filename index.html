@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tic Tac Toe</title>
+  </head>
+  <body>
+    <script>
+      var p1Selections = new Array();
+      var p2Selections = new Array();
+      
+      // Array(3) generates empty array of length 3
+      // map values of array to another empty array 
+      var board = [...Array(3)].map(e => Array(3));
+    
+      const playerSelectionRow =  prompt("Pick row: 1, 2, or 3");
+      const playerSelectionCol =  prompt("Pick row: 1, 2, or 3");
+
+
+      function p1Moves () {
+        var currSelection = p1Selections
+        if (turnCount % 2 == 0) {
+            currSelection = p2Selections
+        }
+        
+        var selectionRow = playerSelectionRow();
+        var selectionCol = playerSelectionCol();
+        if (selectionRow == 1) {
+          if (selectionCol == 1) {
+            currSelection.push(1)
+          }
+          else if (selectionCol == 2) {
+            currSelection.push(2)
+          }
+          else if (selectionCol == 3) {
+            currSelection.push(3)
+          }
+        }
+        else if (selectionRow == 2) {
+          if (selectionCol == 1) {
+            currSelection.push(4)
+          }
+          else if (selectionCol == 2) {
+            currSelection.push(5)
+          }
+          else if (selectionCol == 3) {
+            currSelection.push(6)
+          }
+        }
+        else if (selectionRow == 3) {
+          if (selectionCol == 1) {
+            currSelection.push(7)
+          }
+          else if (selectionCol == 2) {
+            currSelection.push(8)
+          }
+          else if (selectionCol == 3) {
+            currSelection.push(9)
+          }
+        }
+      };
+      
+     
+    </script>
+  </body>
+</html>
