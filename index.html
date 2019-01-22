@@ -3,15 +3,41 @@
   <head>
     <title>Tic Tac Toe</title>
   </head>
-  <body>
-    <script>
+  <style>
+    td {
+      width: 50px;
+      height: 50px;
+      border: solid 1px black;
+      text-align: center;
+      font-size: 20pt;
+    }
+    td:hover {
+     background-color: #00000;
+      cursor: pointer;
+    }
+  </style>
+    <script type="text/javascript">
       var p1Selections = new Array()
       var p2Selections = new Array()
-      var turnCount = 1
-      var winSelections = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
-      // Array(3) generates empty array of length 3
-      // map values of array to another empty array 
-      var board = [...Array(3)].map(e => Array(3))
+      var winSelections = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]];
+     
+      var drawBoard = function() {
+        var board = document.getElementByID("game");
+        var turnCount = 1;
+        
+        while (board.hasChildNodes()) {
+         board.removeChild(board.firstChild); 
+        }
+        
+        for(i = 0; i < 3; i++) {
+          var row = document.createElement("tr"): // create table row element
+          for (c = 0; c < 3; c++) {
+            var col = document.createElement("td");
+            col.id = turnCount;
+            cold.innerHTML = turnCount;
+          }
+        }
+      }
 
       function playerMoves () {        
         var playerSelectionRow =  prompt("Pick row: 1, 2, or 3");
@@ -92,5 +118,27 @@
       
      
     </script>
-  </body>
-</html>
+
+<body>
+<div style="text-align:center;margin:0 auto;width:50%;padding-top:20px;">
+<br/>
+<div style="float:left;">
+Player 1
+
+<div style="font-size:30pt;" id="player1">
+0
+</div>
+</div>
+
+<table id="game" style="float:left;margin-left:20px;">
+</table>
+
+<div style="float:left;margin-left:20px;">
+Player 2
+<div id="player2" style="font-size:30pt;">0</div>
+</div>
+
+<div class="clear"></div>
+</div>
+</body>
+</html></html>
