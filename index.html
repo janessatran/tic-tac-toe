@@ -2,13 +2,23 @@
 <html>
     <head>
     <style>
-        html {
+        h1 {
+            text-align: center;
+            color: rgb(0, 52, 110);
+            justify-content: center;
+            vertical-align: middle;
+            margin-top: 20px;
+            grid-area: 1 / 2; 
+        }
+        body {
             width: 100%;
             height: 100%;
             font: 15px 'Silkscreen', monospace;
+            color: rgb(0, 52, 110);
             letter-spacing: 1px;
             background-color: #f3d491;
-
+            text-align:center;
+            padding-top:10px;
         }
         td {
             width:100;
@@ -22,36 +32,35 @@
             background-color: #ebe7e749;
             cursor:pointer;
         }
+       div {
+            margin:0 auto;
+            width:45%;
+            padding-top:50px;
+
+        }
+        table {
+            float:left;
+            margin-left:60px;
+            padding-top:50px;
+        }
     </style>
     
     <script src="tictactoe.js?v2"></script>
     </head>
-    
     <body>
-    <div style="text-align:center;margin:0 auto;width:50%;padding-top:20px;">
-    <br/>
-
-    <table id="board" style="float:left;margin-left:20px;">
-      </table>
-    <br>  
-
+        <h1>Tic-Tac-Toe</h1>
     <div>
-    PLAYER 1
-    <div style="font-size:15;" id="player1">
-    0
-    </div>
-    </div>
-<br><br>
-    <div>
-    PLAYER 2
-    <div id="player2" style="font-size:15;">0</div>
+        <table id="board"></table>
+        <div>PLAYER 1
+          <div id="player1">0 </div>
+        </div>
+        <div>PLAYER 2
+        <div id="player2">0</div>
+
     </div>
 
-    
-
-    
     <div class="clear"></div>
     </div>
     </body>
-    </html>
+</html>
     
