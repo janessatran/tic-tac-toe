@@ -4,6 +4,7 @@ var winValues =   [[1, 2, 3], [4, 5, 6], [7, 8, 9],
 var playerOneSelections = new Array();
 var playerTwoSelections = new Array();
 var turnCount = 1;
+var lastTurn = "";
 var playerOnePoints = 0;    // player 1 points
 var playerTwoPoints = 0;    // player 2 points
 
@@ -25,24 +26,35 @@ function drawBoard() {
         for (r = 0; r < 3; r++) {
             var col = document.createElement("td");
             col.id = blockNum;
-            col.innerHTML = blockNum;
 
             // create listener function for what happens when element/block is clicked
             // if Player 1, X
             // if Player 2, O 
             var onClick = function(e) {
-                if (turnCount % 2 != 0) {
-                    this.innerHTML = "X";
-                    playerOneSelections.push(parseInt(this.id));
-                    // sort the selection values by ascending order
-                    playerOneSelections.sort(function(a, b) { return a - b });
-                }
+                if (lastTurn == "O" || lastTurn == "") {
+                    if(this.textContent == "O" || this.textContent == "X") {
+                        alert('pick another block!')
+                    }
+                    else{
+                        this.textContent = "X";
+                        playerOneSelections.push(parseInt(this.id));
+                        // sort the selection values by ascending order
+                        playerOneSelections.sort(function(a, b) { return a - b });
+                        lastTurn = "X";
 
+                    }
+                }
                 else {
-                    this.innerHTML = "O";
-                    playerTwoSelections.push(parseInt(this.id));
-                    // sort the selection values by ascending order
-                    playerTwoSelections.sort(function(a, b) { return a - b });
+                    if(this.textContent == "O" || this.textContent == "X") {
+                        alert('pick another block!')
+                    }
+                    else{
+                        this.textContent = "O";
+                        playerTwoSelections.push(parseInt(this.id));
+                        // sort the selection values by ascending order
+                        playerTwoSelections.sort(function(a, b) { return a - b });
+                        lastTurn = "O";  
+                    }
                 }
 
                 turnCount++;
@@ -50,21 +62,20 @@ function drawBoard() {
 
                 if (gameOver)
                 {
-                    if(turnCount % 2 != 0)
+                    if(lastTurn == "O")
                         playerOnePoints++;
                     else
                         playerTwoPoints++;
-
                     // update scores 
-                    document.getElementById("player1").innerHTML = playerOnePoints;
-                    document.getElementById("player2").innerHTML = playerTwoPoints;
-
+                    document.getElementById("player1").textContent = playerOnePoints;
+                    document.getElementById("player2").textContent = playerTwoPoints;
                     newGame();
                     drawBoard();
                 }
                 // tied game
                 else if (playerTwoSelections.length + playerOneSelections.length == 9)
                 {
+                    alert('Draw!')
                     newGame();
                     drawBoard();
                 }
@@ -83,6 +94,7 @@ function drawBoard() {
 function newGame()
 {
     turnCount = 0;
+    lastTurn == "";
     playerOneSelections = new Array();
     playerTwoSelections = new Array();
 }
@@ -94,22 +106,22 @@ function checkWinner() {
     var win = false;
     var playerSelections = new Array();
 
-    if (turnCount % 2 != 0)
+    if (lastTurn == "O") {
         playerSelections = playerOneSelections;
-    else
-  playerSelections = playerTwoSelections;
-    
+    }
+    else if (lastTurn == "X"){
+        playerSelections = playerTwoSelections;
+    }
+    console.log(playerSelections);
     if (playerSelections.length >= 3) {
         // check if any 'winValues' are also in your selections
-        
         for (i = 0; i < winValues.length; i++) {
             var checkValues = winValues[i];  
             var valuesFound = true;
-            
+            // iterate through each value in winValues set
+            // check if value is in playerSelections
+             // if not, break, not winner
             for (r = 0; r < checkValues.length; r++) {
-                // iterate through each value in winValues set
-                // check if value is in playerSelections
-                // if not, break, not winner
                 var found = false;
                 for (s = 0; s < playerSelections.length; s++) {
                     if (checkValues[r] == playerSelections[s]) {
@@ -127,6 +139,7 @@ function checkWinner() {
 
             if (valuesFound == true) {
                 win = true;
+                alert('Winner!');
                 break;
             }
         }
