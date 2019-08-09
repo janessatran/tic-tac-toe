@@ -66,26 +66,14 @@ let gameController = (() => {
 
   checkWinner = () => {
     let win = false;
-    let selections = (lastTurn == "O") ? playerTwo.selections : playerOne.selections;
+    let playerSelections = (lastTurn == "O") ? playerTwo.selections : playerOne.selections;
 
+    // only check if user selections array contains at least 3 choices
     if(selections.length >= 3) {
       for(i = 0; i < gameBoard.winValues.length; i++) {
-        let vals = gameBoard.winValues[i];
-        let valsFound = true;
-        for(j = 0; j < vals.length; j++) {
-          let found = false;
-          for(s = 0; s < selections.length; s++){
-            if (vals[j] == selections[s]) {
-              found = true;
-              break;
-            }
-          }
-          if (found == false) {
-            valsFound = false;
-            break;
-          }
-        }
-
+        let vals = gameBoard.winValues[i].sort();
+        let valsFound = playerSelections.includes(vals) ? true : false;
+        
         if (valsFound == true) {
           win = true;
           alert("Winner! Yay!");
