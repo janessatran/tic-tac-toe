@@ -1,34 +1,115 @@
+// module to set up board for game
+let gameBoard = (() => {
+  const board = [["", "", ""],
+                 ["", "", ""],
+                 ["", "", ""]];
+  
+  let winValues = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
+                 [1, 4, 7], [2, 5, 8], [3, 6, 9],
+                 [1, 5, 9], [3, 5, 7]];
+  
+  let lastTurn = "";
+  
+  let updateBoard = (currentPlayer) => {
+    [].forEach.call(document.querySelectorAll(".cell"), function(e) {
+      console.log(e);
+      e.addEventListener('click', () => {
+        if (e.innerText != "") {
+          alert('Pick another block!');
+        } else {
+          e.innerText = currentPlayer.marker;
+          currentPlayer.selections.push(parseInt(e.id));
+          // sort selection values by ascending order
+          currentPlayer.selections.sort(function (a, b) { return a - b });
+          lastTurn = currentPlayer.marker;
+        }
+      });
+    });
+  }
 
-const gameBoard = (() => {
-  'use strict'
-  const board = () => [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  let resetBoard = () => {
+    [].forEach.call(document.querySelectorAll(".cell"), function(e) {
+        e.innerText = "";
+    });
+  };
 
-  renderBoard = () => {
-    let domBoard = document.getElementById('board');
-    for(p = 0; p < board.length; p++) {
-      for(r = 0; r < 3; r++) {
-        let row = table.insertRow(r);
-        for(i = 0; i < 3; i++) {
-          let block = row.insertCell(i);
-          block.id = board[p];
+  return { board, updateBoard, resetBoard, lastTurn, winValues }
+})();
+
+// factory function to create Player object
+const Player = (marker) => {
+  score: 0;
+  selections: [];
+  resetScore = () => { score: 0 };
+  getScore = () => { return this.score };
+  return { getScore, marker, resetScore, selections }
+};
+
+const playerOne = Player('X');
+const playerTwo = Player('O');
+
+// controller for game flow
+let gameController = (() => {
+
+  playerOne.resetScore();
+  playerTwo.resetScore();
+
+
+
+  getCurrentPlayer = () => { 
+    return ((lastTurn == "" || lastTurn == "X") ? playerOne : playerTwo); 
+  };
+
+  getMove = () => {
+    gameBoard.updateBoard(getCurrentPlayer());
+  };
+
+  checkWinner = () => {
+    let win = false;
+    let selections = (lastTurn == "O") ? playerTwo.selections : playerOne.selections;
+
+    if(selections.length >= 3) {
+      for(i = 0; i < gameBoard.winValues.length; i++) {
+        let vals = gameBoard.winValues[i];
+        let valsFound = true;
+        for(j = 0; j < vals.length; j++) {
+          let found = false;
+          for(s = 0; s < selections.length; s++){
+            if (vals[j] == selections[s]) {
+              found = true;
+              break;
+            }
+          }
+          if (found == false) {
+            valsFound = false;
+            break;
+          }
+        }
+
+        if (valsFound == true) {
+          win = true;
+          alert("Winner! Yay!");
+          break;
         }
       }
     }
+    return win;
   }
 
-  updateBoard = (position, turn) => board[position] = turn;
+  gameOver = () => {
+    return (turnCount == 4 ? true : false)
+  }
 
-  resetBoard = () => board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  
-  return { updateBoard }
-})();
-
-const Player = (marker) => {
-  const score = (score) => 
-}
+  while(!gameOver()) {
+    getMove();
+  }
 
 
-const Game = {
-  
+  return { getMove, turnCount };
+});
 
-}
+window.onload = gameController;
+
+
+
+

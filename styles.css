@@ -15,6 +15,8 @@ body {
   background-color: #ffffff;
   text-align:center;
   padding-top:10px;
+  /* display: flex; */
+  justify-content: center;
 }
 td {
   width:100;
@@ -28,12 +30,7 @@ td:hover {
   background-color: #7fc9fabb;
   cursor:pointer;
 }
-div {
-  margin:0 auto;
-  width:45%;
-  padding-top:50px;
 
-}
 table {
   float:left;
   margin-left:60px;
@@ -42,4 +39,20 @@ table {
 .player {
   color: red;
   font-size: 1.2rem;
+}
+.game-board {
+  display: grid;
+  grid-template-rows: 8rem 8rem 8rem;
+  grid-template-columns: 8rem 8rem 8rem;
+  float: center;
+}
+
+.cell {
+  background: rgb(235, 199, 199);
+  border: 1px solid rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #AAA;
+  font-size: 2rem;
 }
