@@ -1,126 +1,102 @@
-var winValues = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
-[1, 4, 7], [2, 5, 8], [3, 6, 9],
-[1, 5, 9], [3, 5, 7]];
+// factory function to create Player object
+const Player = (marker) => {
+    let score = 0;
+    let selections = new Array();
+    return { score, marker, selections }
+};
 
-var playerOneSelections = new Array();
-var playerTwoSelections = new Array();
-var turnCount = 1;
-var lastTurn = "";
-var playerOnePoints = 0;    // player 1 points
-var playerTwoPoints = 0;    // player 2 points
+const playerOne = Player('X');
+const playerTwo = Player('O');
 
-function drawBoard() {
-    var board = document.getElementById("board");
-    var blockNum = 1;
+drawBoard = () => {
+    let board = document.getElementById("game-board");
+    let blocks = document.querySelectorAll(".cell");
+    let init = () => {
+        [].forEach.call(blocks, function (e) {
+            e.textContent = "";
+            e.addEventListener('click', onClick);
+        });
+    };
 
-    // removes previous boards
-    while (board.hasChildNodes()) {
-        board.removeChild(board.firstChild);
-    }
+    let onClick = function (e) {
+        console.log(this.textContent);
 
-    // create 3 row elements 
-    for (s = 0; s < 3; s++) {
-        var row = document.createElement("tr");
+        if (newGame.lastTurn == "O" || newGame.lastTurn == "") {
+            if (this.textContent == "O" || this.textContent == "X") {
+                alert('pick another block! - 1')
+            }
+            else {
+                this.textContent = "X";
+                playerOne.selections.push(parseInt(this.id));
+                // sort the selection values by ascending order
+                playerOne.selections.sort(function (a, b) { return a - b });
+                newGame.lastTurn = "X";
 
-        // create 3 col elements for each row
-        // set id of each element to block number
-        for (r = 0; r < 3; r++) {
-            var col = document.createElement("td");
-            col.id = blockNum;
-
-            // create listener function for what happens when element/block is clicked
-            // if Player 1, X
-            // if Player 2, O 
-            var onClick = function (e) {
-                if (lastTurn == "O" || lastTurn == "") {
-                    if (this.textContent == "O" || this.textContent == "X") {
-                        alert('pick another block!')
-                    }
-                    else {
-                        this.textContent = "X";
-                        playerOneSelections.push(parseInt(this.id));
-                        // sort the selection values by ascending order
-                        playerOneSelections.sort(function (a, b) { return a - b });
-                        lastTurn = "X";
-
-                    }
-                }
-                else {
-                    if (this.textContent == "O" || this.textContent == "X") {
-                        alert('pick another block!')
-                    }
-                    else {
-                        this.textContent = "O";
-                        playerTwoSelections.push(parseInt(this.id));
-                        // sort the selection values by ascending order
-                        playerTwoSelections.sort(function (a, b) { return a - b });
-                        lastTurn = "O";
-                    }
-                }
-
-                turnCount++;
-                var gameOver = checkWinner();
-
-                if (gameOver) {
-                    if (lastTurn == "O")
-                        playerOnePoints++;
-                    else
-                        playerTwoPoints++;
-                    // update scores 
-                    document.getElementById("player1").textContent = playerOnePoints;
-                    document.getElementById("player2").textContent = playerTwoPoints;
-                    newGame();
-                    drawBoard();
-                }
-                // tied game
-                else if (playerTwoSelections.length + playerOneSelections.length == 9) {
-                    alert('Draw!')
-                    newGame();
-                    drawBoard();
-                }
-            };
-
-            col.addEventListener('click', onClick);
-
-            row.appendChild(col);
-            blockNum++;
+            }
+        } else {
+            if (this.textContent == "O" || this.textContent == "X") {
+                alert('pick another block! - 2')
+            }
+            else {
+                this.textContent = "O";
+                playerTwo.selections.push(parseInt(this.id));
+                // sort the selection values by ascending order
+                playerTwo.selections.sort(function (a, b) { return a - b });
+                newGame.lastTurn = "O";
+            }
         }
 
-        board.appendChild(row);
-    }
-}
+        newGame.turnCount++;
+        let gameOver = checkWinner();
 
-function newGame() {
-    turnCount = 0;
-    lastTurn == "";
-    playerOneSelections = new Array();
-    playerTwoSelections = new Array();
-}
+        if (gameOver) {
+            if (newGame.lastTurn == "O")
+                playerOne.score++;
+            else
+                playerTwo.score++;
+            // update scores 
+            document.getElementById("player1").textContent = playerOne.score;
+            document.getElementById("player2").textContent = playerTwo.score;
+            newGame();
+            blocks.forEach(cell => cell.removeEventListener("click", onClick));
 
+        } else if (playerTwo.selections.length + playerOne.selections.length == 9) {
+            alert('Draw!')
+            newGame();
+            blocks.forEach(cell => cell.removeEventListener("click", onClick));
+        }
+
+    };
+
+    init();
+};
 
 function checkWinner() {
+
+    let winValues = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
+    [1, 4, 7], [2, 5, 8], [3, 6, 9],
+    [1, 5, 9], [3, 5, 7]];
     // check if current player has a winning hand
     // only stsrt checking when player x has size number of selections
-    var win = false;
-    var playerSelections = new Array();
+    let win = false;
+    let playerSelections = new Array();
 
-    if (lastTurn == "O") {
-        playerSelections = playerOneSelections;
+    if (newGame.lastTurn == "O") {
+        playerSelections = playerOne.selections;
     }
-    else if (lastTurn == "X") {
-        playerSelections = playerTwoSelections;
+    else if (newGame.lastTurn == "X") {
+        playerSelections = playerTwo.selections;
     }
-    console.log(playerSelections);
     if (playerSelections.length >= 3) {
         // check if any 'winValues' are also in your selections
         for (i = 0; i < winValues.length; i++) {
-            var checkValues = winValues[i];
-            var valuesFound = true;
+            let checkValues = winValues[i];
+            let valuesFound = true;
             // iterate through each value in winValues set
             // check if value is in playerSelections
             // if not, break, not winner
             for (r = 0; r < checkValues.length; r++) {
-                var found = false;
+                let found = false;
                 for (s = 0; s < playerSelections.length; s++) {
                     if (checkValues[r] == playerSelections[s]) {
                         found = true;
@@ -145,4 +121,19 @@ function checkWinner() {
     return win;
 }
 
-window.onload = drawBoard;
+newGame = () => {
+    
+    let turnCount = 0;
+    let lastTurn = "";
+
+    playerOne.selections = new Array();
+    playerTwo.selections = new Array();
+
+    // playerOne.score = 0;
+    // playerTwo.score = 0;
+    drawBoard();
+
+    return { turnCount, lastTurn }
+}
+
+window.onload = newGame;
