@@ -9,7 +9,7 @@ h1 {
 body {
   width: 100%;
   height: 100%;
-  font: 1.25rem 'Silkscreen', monospace;
+  font-family: 'Quicksand', sans-serif;
   color: rgb(0, 52, 110);
   letter-spacing: 1px;
   background-color: #ffffff;
@@ -37,22 +37,29 @@ table {
   padding-top:50px;
 }
 .player {
-  color: red;
+  color: rgb(0, 0, 0);
   font-size: 1.2rem;
+  align-content: center;
 }
 .game-board {
-  display: grid;
+  display: inline-grid;
   grid-template-rows: 8rem 8rem 8rem;
   grid-template-columns: 8rem 8rem 8rem;
-  float: center;
+  margin: 0 auto;
+  grid-gap: 0.35rem;
 }
 
 .cell {
-  background: rgb(235, 199, 199);
+  background: rgb(218, 199, 160);
   border: 1px solid rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #AAA;
+  color: rgb(255, 255, 255);
   font-size: 2rem;
+}
+
+.cell:hover {
+  background: rgb(161, 127, 57);
+
 }

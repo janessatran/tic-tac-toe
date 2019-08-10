@@ -1,7 +1,9 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="styles.css?v">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v1">
     <script src="tictactoe.js?v1"></script>
 
 </head>
@@ -9,8 +11,13 @@
 <body>
     <h1>Tic-Tac-Toe</h1>
     <div>
-        <button id="reset">RESET SCORES</button>
-        <table id="board"></table>
+        <div class="player">PLAYER 1
+            <div id="player1">0 </div>
+        </div>
+        <div class="player">PLAYER 2
+            <div id="player2">0</div>
+        </div>
+        <br>
         <div class="game-board">
             <div class="cell" id="1"></div>
             <div class="cell" id="2"></div>
@@ -22,17 +29,9 @@
             <div class="cell" id="8"></div>
             <div class="cell" id="9"></div>
         </div>
+        <br><br>
 
         <br>
-
-        <div class="player">PLAYER 1
-            <div id="player1">0 </div>
-        </div>
-        <div class="player">PLAYER 2
-            <div id="player2">0</div>
-
-        </div>
-
         <div class="clear"></div>
     </div>
 
